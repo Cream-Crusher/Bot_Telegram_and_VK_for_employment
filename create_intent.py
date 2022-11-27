@@ -44,14 +44,17 @@ def get_content(file_path):
 
 
 if __name__ == '__main__':
-    handler = RotatingFileHandler("app_log.log", maxBytes=20000, backupCount=2)
-    logger.addHandler(handler)
-    logger.info('Лог(и): create_intent\n'+'='*20)
-    file_path = 'questions.json'
-    intents = get_content(file_path)
+    try:
+        handler = RotatingFileHandler("logs/cr_intent.log", maxBytes=20000, backupCount=2)
+        logger.addHandler(handler)
+        file_path = 'questions.json'
+        intents = get_content(file_path)
 
-    for display_name in intents:
-        message_texts = []
-        training_phrases_parts = intents[display_name]['questions']
-        message_texts.append(intents[display_name]['answer'])
-        create_intent(project_id, display_name, training_phrases_parts, message_texts)
+        for display_name in intents:
+            message_texts = []
+            training_phrases_parts = intents[display_name]['questions']
+            message_texts.append(intents[display_name]['answer'])
+            create_intent(project_id, display_name, training_phrases_parts, message_texts)
+
+    except Exception as err:
+        logger.exception(err)

@@ -2,6 +2,7 @@ import os
 import vk_api
 import random
 import logging
+import argparse
 
 from dotenv import load_dotenv
 from vk_api.longpoll import VkLongPoll, VkEventType
@@ -9,10 +10,6 @@ from dialogflow import get_detect_intent_message
 from logging.handlers import RotatingFileHandler
 
 load_dotenv()
-vk_token = os.environ['VK_TOKEN']
-project_id = os.environ['PROJECT_ID']
-session_id = os.environ['SESSION_ID']
-vk_session = vk_api.VkApi(token=vk_token)
 
 logger = logging.getLogger(__file__)
 logging.basicConfig(level=logging.INFO)
@@ -48,10 +45,27 @@ def submit_a_reply(event, vk_api):
         )
 
 
+def get_args():
+    parser = argparse.ArgumentParser(description='Запуск телегарм бота')
+    parser.add_argument('--vk_token', default=os.environ["VK_TOKEN"], help='Введите VK_TOKEN')
+    parser.add_argument('--project_id', default=os.environ["PROJECT_ID"], help='Введите PROJECT_ID')
+    parser.add_argument('--session_id', default=os.environ["SESSION_ID"], help='Введите SESSION_ID')
+    args = parser.parse_args()
+    return args
+
+
 if __name__ == '__main__':
-    handler = RotatingFileHandler("app_log.log", maxBytes=20000, backupCount=2)
+    args = get_args()
+    vk_token = args.vk_token
+    project_id = args.project_id
+    session_id = args.session_id
+    vk_session = vk_api.VkApi(token=vk_token)
+    handler = RotatingFileHandler("logs/vk_log.log", maxBytes=20000, backupCount=2)
     logger.addHandler(handler)
-    logger.info('Лог(и): vk\n'+'='*20)
     longpoll = VkLongPoll(vk_session)
     vk_api = vk_session.get_api()
-    interception_of_messages(longpoll)
+    try:
+        interception_of_messages(longpoll)
+
+    except Exception as err:
+        logger.exception(err)

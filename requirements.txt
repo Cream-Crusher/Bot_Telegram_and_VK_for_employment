@@ -4,3 +4,4 @@ google-api-core==2.10.2
 google-cloud-dialogflow==2.16.1
 google-cloud-storage==2.6.0
 vk-api==11.9.9
+argparse==1.4.0
