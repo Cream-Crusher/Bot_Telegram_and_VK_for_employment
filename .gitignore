@@ -1,0 +1,11 @@
+/venv
+.env
+*cfg
+.vscode
+google-cloud-sdk
+/__pycache__
+*__pycache__
+__pycache__/
+**/__pycache__
+*.log
+*.json
