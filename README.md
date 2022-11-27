@@ -80,8 +80,11 @@ $ python3 tg_bot.py
  ### Если возникли ошибки или проблемы с установкой токено, то возможно ответы есть тут:
 
 [Учетные данные для ADC](https://cloud.google.com/docs/authentication/provide-credentials-adc)
+
 [менеджер облачных ресурсов](https://console.cloud.google.com/cloud-resource-manager)
+
 [Аутентификация gcloud](https://googleapis.dev/python/google-api-core/latest/auth.html)
+
 [Создание агентов](https://dialogflow.cloud.google.com/)
 
 #
